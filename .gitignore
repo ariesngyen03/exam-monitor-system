@@ -1,0 +1,48 @@
+# ==============================
+# 1. C++ & CMake Build Files
+# ==============================
+build/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+*.cmake
+*.exe
+*.dll
+*.o
+*.obj
+
+# ==============================
+# 2. Python (Dành cho Partner)
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# ==============================
+# 3. VS Code & IDE Settings
+# ==============================
+.vscode/
+.vs/
+*.pro.user
+
+# ==============================
+# 4. OS Generated Files
+# ==============================
+.DS_Store
+Thumbs.db
+
+# ==============================
+# 5. Local config & runtime data
+# ==============================
+scripts/local_env.bat
+data/logs/
+data/reports/
+data/evidence/20*/
+
+# Ban dong goi (scripts/package.py)
+dist/
+
+# Ban bien dich OpenVINO rieng cua tung may
+python_ai/models/*/ov_cache/

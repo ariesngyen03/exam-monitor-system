@@ -1,0 +1,87 @@
+EXAM MONITOR SYSTEM — HƯỚNG DẪN CHẠY THỬ
+==========================================
+
+1. YÊU CẦU MÁY
+   - Windows 10/11 64-bit, RAM từ 8 GB, CPU Core i5 thế hệ 8 trở lên. Không cần cài Python.
+     Máy có GPU tích hợp Intel (Iris Xe / UHD) thì AI dò người trên GPU (~30–45 ms/nhịp, không chiếm CPU);
+     không có thì chạy CPU (~200 ms/nhịp). Thiết bị đang dùng ghi ở data\logs\ai_console.log
+     (dòng "[PersonDetector] Backend: openvino trên GPU/CPU ..."). Nếu "AI" dưới 1 nhịp/giây thì ghi vào nhận xét.
+   - 1 webcam (webcam laptop hoặc webcam USB). Webcam USB 1080p cho kết quả tốt hơn webcam laptop.
+
+2. CÀI ĐẶT
+   - Giải nén vào đường dẫn NGẮN, KHÔNG DẤU, tốt nhất không có khoảng trắng, ví dụ:  C:\ExamMonitor
+     (đường dẫn có dấu tiếng Việt như "Tải xuống" có thể làm AI không mở được file).
+   - Lần đầu chạy:
+       * Windows SmartScreen chặn  -> bấm "More info" -> "Run anyway".
+       * Tường lửa hỏi quyền mạng cho python / ExamMonitorSystem -> "Allow" hoặc "Cancel" đều được
+         (hai phần chỉ nói chuyện với nhau trong cùng máy).
+
+3. CHẠY
+   1) Nhấp đúp Start.bat. Giữ nguyên cửa sổ đen; giao diện sẽ mở ra.
+   2) Chờ ô trạng thái "AI" ở góc trên chuyển sang trực tuyến (lần đầu 20–60 giây).
+   3) Trang CÀI ĐẶT: chọn camera (0 = webcam laptop, 1 = webcam USB thứ nhất...), tên phòng, giám thị -> Lưu.
+      Độ phân giải: để 1080p (mặc định). Sau khi BẮT ĐẦU, dòng chữ dưới khung video phải ghi
+      "Camera 1920×1080 MJPG · ~30 fps". Nếu ghi 1280×720 / 640×480, ghi YUY2, hoặc fps dưới 20 -> ghi vào nhận xét
+      và chạy KiemTraCamera.bat (mục 9).
+      Máy có cài OBS: "OBS Virtual Camera" thường chiếm số 0 (hình logo OBS) -> thử số 1, 2.
+   4) Bấm BẮT ĐẦU. 15 GIÂY ĐẦU mọi người NGỒI YÊN ĐÚNG CHỖ để AI học sơ đồ chỗ ngồi.
+      Nếu lỡ dời camera: trang Cài đặt -> "Học lại sơ đồ chỗ ngồi".
+      Cách đánh số: Dãy = dãy bàn trái/phải; GHẾ 1 = bàn GẦN CAMERA NHẤT (bàn trên), Ghế 2, 3... lùi dần về cuối lớp.
+      Chụp màn hình sơ đồ (trang Video trực tiếp) sau khi AI học xong để đối chiếu khi ghi phiếu.
+   5) Bấm DỪNG LẠI, chờ khoảng 10 giây (AI ghi báo cáo), rồi đóng giao diện. AI tự tắt theo.
+   - Trang Lịch sử cảnh báo: xem lại các sự cố, nhập ghi chú/SBD, bấm "✔ Xác nhận vi phạm" hoặc "✖ Đánh dấu báo sai",
+     và bấm "📄 Xuất Biên bản PDF" hoặc "📊 Xuất CSV" để kết xuất biên bản coi thi chính thức.
+   - Trang Thống kê: xem biểu đồ theo hành vi, mức độ, vị trí ghế và chỉ số Độ chính xác thực tế (sau khi giám thị duyệt).
+   - Trang Cài đặt -> Cấu hình AI:
+       * Độ nhạy AI (Thấp / Trung bình / Cao): thay đổi có hiệu lực ngay lập tức mà không cần khởi động lại AI.
+       * Báo rời ghế sau (giây): cấu hình thời gian thí sinh rời vị trí trước khi phát cảnh báo.
+       * Sơ đồ ghế cố định (seatmap.json): bấm "Chỉnh sửa sơ đồ ghế..." để vẽ/đặt tên ghế cố định cho phòng thi.
+   - Cảm xúc (mặc định BẬT): trang Video trực tiếp, cột Chi tiết "Cảm xúc: ...". Chỉ có khi thấy được mặt
+     (thí sinh cúi viết bài thì thường trống). Tắt ở trang Cài đặt -> bỏ tick "Hiện cảm xúc" -> Lưu.
+
+4. ĐẶT CAMERA (ảnh hưởng lớn nhất đến chất lượng AI)
+   - Phía trước lớp, cao 2–2,5 m, chúc xuống nhẹ, thấy rõ MẶT của mọi người.
+   - Lần thử đầu nên dùng 6–12 người. Người ở hàng cuối phải thấy rõ mặt trên màn hình.
+   - Mỗi camera nên phủ tối đa ~15 người. Đo mô phỏng: 16 người dò được ~60%, 36 người chỉ ~8–25% (người ở xa
+     quá nhỏ). Lớp đông cần nhiều camera.
+   - Đủ sáng, tránh ngược sáng (cửa sổ phía sau lưng học sinh).
+
+5. TÌNH TRẠNG AI — ĐỌC TRƯỚC KHI ĐÁNH GIÁ
+   - AI đóng vai trò HỖ TRỢ GIÁM THỊ (Human-in-the-loop): gợi ý chỗ cần chú ý kèm ảnh bằng chứng để giám thị xác minh.
+   - Đánh giá khoa học Leave-One-Video-Out (khử hoàn toàn trùng lặp 77 file .npz về 12 video gốc độc lập,
+     áp dụng ràng buộc đơn điệu vật lý w >= 0): mô hình SeatScorer đạt AUC = 0,75 ± 0,20, vượt qua bộ luật
+     cố định (AUC = 0,67 ± 0,20). Chi tiết xem tại python_ai\training\BAO_CAO_DANH_GIA_AI.md.
+   - Cảm xúc chỉ để THAM KHẢO, không dùng để kết luận gian lận.
+   - Vì vậy buổi thử này có giá trị nhất khi làm theo KỊCH BẢN (mục 6) để đo được AI bắt đúng/sai bao nhiêu.
+
+6. KỊCH BẢN THỬ GỢI Ý (~10 phút / lượt) — ghi vào PHIEU_GHI_NHAN.csv
+   Đồng bộ giờ: dùng đồng hồ của CHÍNH MÁY CHẠY APP để ghi giờ.
+   - Phút 0–2   : tất cả làm bài bình thường (đo báo sai khi không ai làm gì).
+   - Phút 2     : 1 bạn quay hẳn sang trái/phải nhìn bài bạn bên cạnh ~5 giây.
+   - Phút 3     : 1 bạn cúi xuống dưới gầm bàn ~6 giây.
+   - Phút 4     : 1 bạn rời chỗ ~15 giây rồi quay lại.
+   - Phút 5     : 2 bạn ngồi cạnh quay vào nhau nói chuyện ~5 giây.
+   - Phút 6     : 1 bạn ngả hẳn người sang bàn bên cạnh ~6 giây (nghiêng người).
+   - Phút 7–10  : tất cả làm bài bình thường.
+   Ghi lại mỗi hành động: giờ:phút:giây bắt đầu, chỗ ngồi (Dãy – Ghế như trên app), kéo dài, app có cảnh báo không.
+   Ghi thêm mọi cảnh báo của app mà KHÔNG có ai làm gì (báo sai).
+   Lặp lại 2–3 lượt với các bạn khác nhau / chỗ ngồi khác nhau.
+
+7. QUYỀN RIÊNG TƯ (QUAN TRỌNG VỚI HỌC SINH)
+   - Xin phép nhà trường và thông báo cho học sinh trước khi quay; học sinh chưa đủ 18 tuổi cần sự đồng ý phù hợp
+     (Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân).
+   - Chỉ dùng cho mục đích thử nghiệm, không dùng kết quả để đánh giá học sinh.
+   - Ảnh bằng chứng lưu trong data\evidence. Xoá sau khi đã gửi lại / phân tích xong.
+
+8. GỬI LẠI SAU KHI THỬ
+   - Nén thư mục  data\  (gồm logs\ai_console.log, logs\app_console.log, logs\camera_check.log, reports\, evidence\) + PHIEU_GHI_NHAN.csv đã điền.
+   - Chụp 1 ảnh màn hình trang Video trực tiếp lúc đang chạy (thấy sơ đồ ghế + dòng thông số Camera/AI).
+   - Ghi chú thêm nhận xét về giao diện: chỗ nào khó hiểu, thiếu gì, cảnh báo có dễ theo dõi không.
+
+9. GẶP LỖI
+   - AI không lên trực tuyến sau 2 phút: mở data\logs\ai_console.log, gửi lại nội dung cuối file.
+   - Không thấy hình: thử camera 0 / 1 / 2 ở trang Cài đặt; đóng các app khác đang dùng webcam (Zoom, Teams...).
+   - Video giật / fps thấp: ĐÓNG giao diện, nhấp đúp KiemTraCamera.bat (camera khác: mở cmd, gõ KiemTraCamera.bat 1).
+     Công cụ đo định dạng + fps thật của camera (~15 giây), kết quả lưu ở data\logs\camera_check.log.
+   - Rút / cắm lại webcam khi đang chạy: app tự kết nối lại sau vài giây.
+   - AI bị tắt giữa chừng: tự khởi động lại sau khoảng 3 giây + thời gian nạp mô hình.

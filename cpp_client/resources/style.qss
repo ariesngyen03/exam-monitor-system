@@ -1,0 +1,207 @@
+/* style.qss - Light Theme Dashboard */
+QMainWindow {
+    background-color: #f0f2f5;
+    color: #1e293b;
+    font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+QFrame#Sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+}
+
+QLabel#BrandText {
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+QPushButton#MenuButton {
+    background-color: transparent;
+    color: #64748b;
+    border: none;
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+QPushButton#MenuButton:hover {
+    background-color: #f1f5f9;
+    color: #1e293b;
+}
+
+QPushButton#MenuButton[active="true"] {
+    background-color: #eff6ff;
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+QFrame#Header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+QLabel#StatusBadge {
+    background-color: #f1f5f9;
+    color: #475569;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+QLabel#TimeBadge {
+    background-color: #e0e7ff;
+    color: #4338ca;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 16px;
+}
+
+QPushButton#BtnToggle {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+QPushButton#BtnToggle:hover { background-color: #2563eb; }
+QPushButton#BtnToggle:pressed { background-color: #1d4ed8; }
+
+QPushButton#BtnToggleStop {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+QPushButton#BtnToggleStop:hover { background-color: #dc2626; }
+
+QFrame#Card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+QLabel#CardTitle {
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+QLabel#OnlineBadge {
+    background-color: #dcfce7;
+    color: #166534;
+    border-radius: 10px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+QPushButton#BtnPrimary {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-weight: 600;
+}
+
+QPushButton#BtnSecondary {
+    background-color: #ffffff;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-weight: 600;
+}
+
+QLabel#StatValueRed {
+    color: #ef4444;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+QLabel#StatValueGreen {
+    color: #10b981;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+QTableView#LogTableLight {
+    background-color: #ffffff;
+    border: none;
+    gridline-color: transparent;
+    color: #1e293b;
+}
+
+QTableView#LogTableLight::item {
+    border-bottom: 1px solid #f1f5f9;
+    padding: 8px;
+}
+
+QTableView#LogTableLight::item:selected {
+    background-color: #eff6ff;
+    color: #1e293b;
+}
+
+QHeaderView::section {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-weight: bold;
+    border: none;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 8px;
+}
+
+QFrame#CameraContainerFrame {
+    background-color: #000000;
+    border-radius: 8px;
+}
+
+QLabel#OfflineBadge {
+    background-color: #f1f5f9;
+    color: #64748b;
+    border-radius: 10px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+QFrame#StatTile {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+QStackedWidget, QScrollArea, QScrollArea > QWidget > QWidget {
+    background-color: #f0f2f5;
+}
+
+QLineEdit, QComboBox {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: #1e293b;
+    min-height: 20px;
+}
+QLineEdit:focus, QComboBox:focus {
+    border: 1px solid #3b82f6;
+}
+
+QPushButton#BtnPrimary:hover { background-color: #2563eb; }
+QPushButton#BtnPrimary:disabled { background-color: #93c5fd; }
+QPushButton#BtnSecondary:hover { background-color: #f8fafc; color: #1e293b; }
+QPushButton#BtnSecondary:disabled { color: #cbd5e1; }
+
+/* QSpinBox: để Fusion tự vẽ (QSS làm hỏng mũi tên tăng/giảm) */
+QSpinBox { min-height: 30px; }

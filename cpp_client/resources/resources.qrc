@@ -1,0 +1,12 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+    <file>style.qss</file>
+    <file>logo.jpg</file>
+    <file>home.png</file>
+    <file>cam.png</file>
+    <file>history.png</file>
+    <file>monitorin.png</file>
+    <file>automation.png</file>
+    <file>setting.png</file>
+</qresource>
+</RCC>

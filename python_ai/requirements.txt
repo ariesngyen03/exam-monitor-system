@@ -1,0 +1,16 @@
+# Python 3.10 hoặc 3.11 (mediapipe.solutions.face_mesh KHÔNG có trên Python 3.12+ / mediapipe >= 0.10.30)
+mediapipe==0.10.14
+protobuf>=4.25,<5          # mediapipe 0.10.14 yêu cầu protobuf 4.x (main.py tự xử lý pb2 sinh bởi protoc 28)
+numpy
+opencv-python
+scipy
+pillow
+pyzmq>=25.0.0
+torch
+torchvision
+ultralytics
+openvino>=2024.0   # dò người trên GPU tích hợp Intel / CPU nhanh hơn PyTorch (models/yolov8s_openvino_544x960)
+
+# Tùy chọn — nhánh cảm xúc (EmotionWorker tự tắt nếu chưa cài):
+# deepface
+# tf-keras

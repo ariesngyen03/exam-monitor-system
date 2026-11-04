@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package exam;
+
+// 1. Gói tin C++ gửi sang Python (Hộp đen AI nhận)
+message FramePacket {
+    int64 timestamp = 1;       // Thời gian chụp ảnh (milliseconds since epoch)
+    int32 frame_id = 2;        // Số thứ tự khung hình
+    bytes image_data = 3;      // Mảng byte ảnh thô (đã nén JPEG)
+    int32 width = 4;
+    int32 height = 5;
+
+    // Thông tin phiên từ trang Cài đặt — AI dùng khi bắt đầu phiên mới
+    string exam_room = 6;
+    string proctor = 7;
+    // Bộ đếm yêu cầu học lại sơ đồ chỗ ngồi: C++ tăng 1 mỗi lần bấm nút và gửi kèm MỌI gói;
+    // AI thấy giá trị đổi thì học lại (không mất yêu cầu dù frame bị CONFLATE bỏ qua)
+    int32 reset_seq = 8;
+
+    // Cấu hình động từ trang Cài đặt (Qt6 Client gửi sang để AI Server áp dụng tức thì mà không cần khởi động lại)
+    string sensitivity = 9;           // "low" | "medium" | "high"
+    int32 absent_alert_seconds = 10;  // Thời gian rời chỗ (giây) để cảnh báo "Absent" (VD: 15s thử nghiệm, 60-300s thi thật)
+    string seatmap_path = 11;         // Đường dẫn file seatmap.json cố định (rỗng = tự động học sơ đồ chỗ ngồi)
+}
+
+// 2. Gói tin Python trả về C++
+message InferenceResult {
+    int64 timestamp = 1;
+    int32 frame_id = 2;
+    repeated Detection detections = 3; // Danh sách chỗ ngồi / người phát hiện được
+    bool is_heartbeat = 4;             // Báo hiệu sự sống (Ping)
+
+    bool calibrating = 5;              // Đang học sơ đồ chỗ ngồi (đầu phiên)
+    float calib_progress = 6;          // Tiến độ học chỗ ngồi 0.0 -> 1.0
+    int32 n_people = 7;                // Số người phát hiện trong khung hình
+    int32 n_faces = 8;                 // Số khuôn mặt phân tích được
+    string session_id = 9;             // Mã phiên giám sát phía AI
+}
+
+message Detection {
+    int32 track_id = 1;        // Chỉ số chỗ ngồi + 1 (ổn định trong phiên)
+    // Loại hành vi: "Normal", "Turning Head", "Head Down", "Leaning", "Suspicious",
+    //               "Absent", "Empty", "Calibrating", "Unassigned"
+    string behavior_type = 2;
+    float confidence = 3;      // Mức rủi ro gian lận (0.0 - 1.0)
+    repeated float bbox = 4;   // Tọa độ khung [x_min, y_min, x_max, y_max] (pixel của frame gốc)
+    int32 desk_id = 5;         // Vị trí bàn thi: Dãy*100 + Ghế (0 = chưa xác định)
+
+    string seat_label = 6;           // Nhãn chỗ ngồi "D1-G2" (Dãy 1 - Ghế 2)
+    repeated string violations = 7; // Danh sách vi phạm chi tiết từ luật hành vi / Transformer
+    string emotion = 8;              // Cảm xúc (DeepFace phía AI khi chạy --emotion), rỗng nếu không có; chỉ tham khảo
+    bool is_present = 9;             // Có người ngồi tại chỗ này không
+    bool is_cheating = 10;           // Kết luận cuối cùng (luật + Transformer, đã chống nhiễu)
+    string risk_level = 11;          // "THAP" | "TRUNG BINH" | "CAO" | "RAT CAO"
+    bool new_alert = 12;             // AI vừa ghi nhận sự cố + chụp bằng chứng ở nhịp này
+    string evidence_path = 13;       // Đường dẫn tuyệt đối ảnh bằng chứng (khi new_alert = true)
+    bool new_incident = 14;          // new_alert này mở 1 sự cố MỚI (false = chụp thêm cho sự cố đang diễn ra)
+    repeated float face_bbox = 15;   // Khung mặt dò được Ở NHỊP NÀY [x_min, y_min, x_max, y_max] (pixel frame gốc), rỗng nếu không thấy mặt
+}

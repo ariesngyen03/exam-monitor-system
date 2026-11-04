@@ -1,0 +1,34 @@
+@echo off
+:: ============================================================================
+:: LOCAL ENVIRONMENT CONFIGURATION (TEMPLATE)
+:: ============================================================================
+:: 1. SAO CHEP file nay va doi ten thanh `local_env.bat` (da duoc .gitignore).
+:: 2. SUA cac duong dan ben duoi cho khop voi may tinh cua ban.
+:: Luu y: KHONG dung dau ngoac kep quanh duong dan. Chi dung ky tu ASCII
+::        (tieng Viet co dau lam cmd.exe doc sai file .bat).
+:: ============================================================================
+
+:: --- Build C++ ---
+set LOCAL_QT_DIR=C:\Qt\6.11.1\mingw_64
+set LOCAL_MSYS2_DIR=C:\msys64\mingw64
+set LOCAL_OPENCV_DIR=D:\CodeSpace\Work_Space\thesis_iuh\opencv_build
+set LOCAL_ZMQ_DIR=D:\CodeSpace\Work_Space\thesis_iuh\zmq_workspace\zmq_install
+:: mingw32-make cung ho mingw64 (KHONG dung ban cua msys64\ucrt64 - gay loi link)
+set LOCAL_MAKE=C:\Qt\Tools\mingw1310_64\bin\mingw32-make.exe
+
+:: --- Python AI (BAT BUOC 3.10 hoac 3.11) - dung de tao venv trong setup_venv.bat ---
+set LOCAL_PYTHON_EXE=C:\Users\YourName\AppData\Local\Programs\Python\Python311\python.exe
+:: Tuy chon: chay AI bang 1 python co san thu vien thay vi venv\Scripts\python.exe
+:: set LOCAL_AI_PYTHON=C:\Users\YourName\AppData\Local\Programs\Python\Python311\python.exe
+
+:: --- Phien giam sat ---
+set EXAM_CAMERA_INDEX=1
+set EXAM_ROOM=PHONG_THI_01
+set EXAM_PROCTOR=
+
+:: Tuy chon: video/IP camera thay cho camera (demo bang video quay san, rtsp://..., http://IP:8080/video)
+:: set EXAM_CAMERA_SOURCE=D:\videos\phong_thi.mp4
+:: Thu muc du lieu dung chung cho AI + giao dien (mac dinh: data\ cua du an)
+:: set EXAM_DATA_DIR=D:\exam_data
+:: Do nhay AI: low (it bao sai nhat) | medium | high (bat nhieu nhat)
+set EXAM_SENSITIVITY=medium
